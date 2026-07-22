@@ -34,3 +34,26 @@
 .todo-row{display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:12px 14px}
 .todo-input{flex:1;border:0;background:transparent;padding:4px 0;font-weight:700;outline:none}
 .todo-delete{width:30px;height:30px;border-radius:50%;background:transparent;color:var(--muted);font-size:1rem}
+
+
+/* Planner v11: colors per tipus dins del calendari */
+.calendar-dots{display:flex;gap:3px;flex-wrap:wrap;margin-top:7px}
+.calendar-dot{display:block;width:7px;height:7px;border-radius:50%}
+.calendar-dot.type-ac{background:#9f432f;box-shadow:0 0 0 2px rgba(159,67,47,.16)}
+.calendar-dot.type-examen-final{background:#64261d;box-shadow:0 0 0 2px rgba(100,38,29,.18)}
+.calendar-dot.type-projecte{background:#8e4a35;box-shadow:0 0 0 2px rgba(142,74,53,.16)}
+.calendar-dot.type-deures{background:#c78568}
+.calendar-dot.type-personal{background:#d19a82}
+.calendar-dot.type-cau{background:#925c4b}
+.calendar-dot.type-altres{background:#b9a095}
+.week-card{overflow:hidden}
+.week-task-list{display:grid;gap:5px;margin-top:8px}
+.week-task{display:block;border-radius:7px;padding:5px 6px;font-size:.66rem;line-height:1.25;text-align:left;color:#fff;white-space:normal;overflow-wrap:anywhere}
+.week-task.type-ac{background:#9f432f;font-weight:700;box-shadow:0 2px 7px rgba(100,38,29,.2)}
+.week-task.type-examen-final{background:#64261d;font-weight:700;box-shadow:0 2px 8px rgba(70,22,16,.25)}
+.week-task.type-projecte{background:#8e4a35;font-weight:700;box-shadow:0 2px 7px rgba(100,38,29,.2)}
+.week-task.type-deures{background:#c78568}
+.week-task.type-personal{background:#d19a82;color:#3b241d}
+.week-task.type-cau{background:#925c4b}
+.week-task.type-altres{background:#b9a095;color:#2d211d}
+@media(max-width:560px){.week-task{font-size:.72rem}.week-card{min-height:96px}}

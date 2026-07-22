@@ -40,15 +40,33 @@ function renderTasks(){
 }
 function renderTaskSubjects(){$("#taskSubject").innerHTML='<option value="">Cap</option>'+db.subjects.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join("")}
 function renderCalendar(){
- $$(".seg[data-calendar-view]").forEach(b=>b.classList.toggle("active",b.dataset.calendarView===calendarView));const c=$("#calendar");
+ $$(".seg[data-calendar-view]").forEach(b=>b.classList.toggle("active",b.dataset.calendarView===calendarView));
+ const c=$("#calendar");
  if(calendarView==="month"){
-  $("#periodTitle").textContent=new Intl.DateTimeFormat("ca-ES",{month:"long",year:"numeric"}).format(calendarDate);const first=new Date(calendarDate.getFullYear(),calendarDate.getMonth(),1,12),start=monday(first);let html='<div class="weekdays">'+["Dl","Dt","Dc","Dj","Dv","Ds","Dg"].map(x=>`<div>${x}</div>`).join("")+'</div><div class="days">';
-  for(let i=0;i<42;i++){const d=new Date(start);d.setDate(start.getDate()+i);const id=iso(d);html+=`<button class="day ${d.getMonth()!==calendarDate.getMonth()?"muted":""} ${id===today()?"today":""} ${id===selectedDate?"selected":""}" data-date="${id}">${d.getDate()}${db.tasks.some(t=>t.date===id&&!t.done)?'<i class="dot"></i>':""}</button>`}c.innerHTML=html+"</div>";
+  $("#periodTitle").textContent=new Intl.DateTimeFormat("ca-ES",{month:"long",year:"numeric"}).format(calendarDate);
+  const first=new Date(calendarDate.getFullYear(),calendarDate.getMonth(),1,12),start=monday(first);
+  let html='<div class="weekdays">'+["Dl","Dt","Dc","Dj","Dv","Ds","Dg"].map(x=>`<div>${x}</div>`).join("")+'</div><div class="days">';
+  for(let i=0;i<42;i++){
+   const d=new Date(start);d.setDate(start.getDate()+i);const id=iso(d);
+   const items=db.tasks.filter(t=>t.date===id&&!t.done);
+   const markers=items.slice(0,4).map(t=>`<i class="calendar-dot ${taskTypeClass(t.type)}" title="${esc(t.title)}"></i>`).join("");
+   html+=`<button class="day ${d.getMonth()!==calendarDate.getMonth()?"muted":""} ${id===today()?"today":""} ${id===selectedDate?"selected":""}" data-date="${id}"><span>${d.getDate()}</span>${markers?`<span class="calendar-dots">${markers}</span>`:""}</button>`;
+  }
+  c.innerHTML=html+"</div>";
  }else if(calendarView==="week"){
-  const m=monday(calendarDate),s=new Date(m);s.setDate(m.getDate()+6);$("#periodTitle").textContent=`${formatDate(iso(m))} – ${formatDate(iso(s))}`;
-  c.innerHTML='<div class="week-cards">'+Array.from({length:7},(_,i)=>{const d=new Date(m);d.setDate(m.getDate()+i);const id=iso(d),items=db.tasks.filter(t=>t.date===id);return `<button class="week-card ${id===selectedDate?"selected":""} ${items.length?"":"empty"}" data-date="${id}"><strong>${new Intl.DateTimeFormat("ca-ES",{weekday:"short",day:"numeric"}).format(d)}</strong>${items.length?`<span>${items.length} ${items.length===1?"tasca":"tasques"}</span>`:""}</button>`}).join("")+"</div>";
+  const m=monday(calendarDate),s=new Date(m);s.setDate(m.getDate()+6);
+  $("#periodTitle").textContent=`${formatDate(iso(m))} – ${formatDate(iso(s))}`;
+  c.innerHTML='<div class="week-cards">'+Array.from({length:7},(_,i)=>{
+   const d=new Date(m);d.setDate(m.getDate()+i);const id=iso(d);
+   const items=db.tasks.filter(t=>t.date===id).sort((a,b)=>String(a.title).localeCompare(String(b.title)));
+   const taskTitles=items.map(t=>`<span class="week-task ${taskTypeClass(t.type)}">${esc(t.title)}</span>`).join("");
+   return `<button class="week-card ${id===selectedDate?"selected":""} ${items.length?"":"empty"}" data-date="${id}"><strong>${new Intl.DateTimeFormat("ca-ES",{weekday:"short",day:"numeric"}).format(d)}</strong><span class="week-task-list">${taskTitles}</span></button>`;
+  }).join("")+"</div>";
  }else{
-  const id=iso(calendarDate);$("#periodTitle").textContent=formatDate(id,{weekday:"long",day:"numeric",month:"long"});const ts=db.tasks.filter(t=>t.date===id);c.innerHTML=ts.length?ts.map(t=>`<article class="task" data-edit-task="${t.id}"><div class="task-main"><strong>${esc(t.title)}</strong><div class="meta">${esc(subjectName(t.subject)||"General")}</div></div><span class="task-type ${taskTypeClass(t.type)}">${esc(t.type)}</span></article>`).join(""):`<div class="empty">No hi ha res programat.</div>`;
+  const id=iso(calendarDate);
+  $("#periodTitle").textContent=formatDate(id,{weekday:"long",day:"numeric",month:"long"});
+  const ts=db.tasks.filter(t=>t.date===id);
+  c.innerHTML=ts.length?ts.map(t=>`<article class="task" data-edit-task="${t.id}"><div class="task-main"><strong>${esc(t.title)}</strong><div class="meta">${esc(subjectName(t.subject)||"General")}</div></div><span class="task-type ${taskTypeClass(t.type)}">${esc(t.type)}</span></article>`).join(""):`<div class="empty">No hi ha res programat.</div>`;
  }
 }
 function openDay(id){selectedDate=id;calendarDate=new Date(id+"T12:00");$("#dayDialogDate").textContent=formatDate(id,{weekday:"long",day:"numeric",month:"long"});const items=db.tasks.filter(t=>t.date===id);$("#dayTaskList").innerHTML=items.length?items.map(t=>`<article class="task" data-edit-task="${t.id}"><button class="task-check ${t.done?"done":""}" data-toggle-task="${t.id}"></button><div class="task-main"><strong>${esc(t.title)}</strong><div class="meta">${esc(subjectName(t.subject)||"General")}</div></div><span class="task-type ${taskTypeClass(t.type)}">${esc(t.type)}</span></article>`).join(""):`<div class="empty">Aquest dia encara no té tasques.</div>`;$("#dayDialog").showModal()}
