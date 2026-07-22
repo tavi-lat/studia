@@ -1,18 +1,20 @@
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-const KEY="planner-v6";
+const KEY="planner-v7";
+const OLD_KEY="planner-v6";
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2);
 const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
 const today=()=>iso(new Date());
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
-let db=JSON.parse(localStorage.getItem(KEY)||"null")||{todos:[],tasks:[],subjects:[],habits:[],schedules:[]};
+let db=JSON.parse(localStorage.getItem(KEY)||localStorage.getItem(OLD_KEY)||"null")||{todos:[],tasks:[],subjects:[],habits:[],schedules:[]};
 if(!db.todos)db.todos=[];if(!db.schedules)db.schedules=[];
-let selectedDate=today(),calendarDate=new Date(),calendarView="month",taskFilter="week",habitDate=new Date();
+let selectedDate=today(),calendarDate=new Date(),calendarView="month",taskFilter="next",habitDate=new Date();
 let simpleConfig=null,clockMode="pomodoro",clockSeconds=1500,clockInitial=1500,clockInterval=null,pomo={focus:25,short:5,long:15};
 let activeScheduleId=db.schedules[0]?.id||"";
 function save(){localStorage.setItem(KEY,JSON.stringify(db));renderAll()}
 function monday(d){const x=new Date(d);const n=(x.getDay()+6)%7;x.setDate(x.getDate()-n);x.setHours(12,0,0,0);return x}
 function formatDate(v,o={weekday:"short",day:"numeric",month:"short"}){return new Intl.DateTimeFormat("ca-ES",o).format(new Date(v+"T12:00"))}
 function endOfWeek(){const m=monday(new Date());const s=new Date(m);s.setDate(m.getDate()+6);return iso(s)}
+function tomorrow(){const d=new Date();d.setDate(d.getDate()+1);return iso(d)}
 function subjectName(id){return db.subjects.find(s=>s.id===id)?.name||""}
 function taskTypeClass(type){return "type-"+String(type||"Altres").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g,"-")}
 function renderAll(){renderHeader();renderTodos();renderTasks();renderCalendar();renderSubjects();renderHabits();renderTaskSubjects();renderClock();renderSchedules()}
@@ -22,6 +24,9 @@ function renderTodos(){
 }
 function renderTasks(){
  let list=[...db.tasks];const m=iso(monday(new Date())),e=endOfWeek();
+ if(taskFilter==="next")list=list.filter(t=>!t.done&&(t.date===today()||t.date===tomorrow()));
+ if(taskFilter==="today")list=list.filter(t=>!t.done&&t.date===today());
+ if(taskFilter==="tomorrow")list=list.filter(t=>!t.done&&t.date===tomorrow());
  if(taskFilter==="week")list=list.filter(t=>!t.done&&t.date>=m&&t.date<=e);
  if(taskFilter==="all")list=list.filter(t=>!t.done);
  if(taskFilter==="done")list=list.filter(t=>t.done);
@@ -36,7 +41,7 @@ function renderCalendar(){
   for(let i=0;i<42;i++){const d=new Date(start);d.setDate(start.getDate()+i);const id=iso(d);html+=`<button class="day ${d.getMonth()!==calendarDate.getMonth()?"muted":""} ${id===today()?"today":""} ${id===selectedDate?"selected":""}" data-date="${id}">${d.getDate()}${db.tasks.some(t=>t.date===id&&!t.done)?'<i class="dot"></i>':""}</button>`}c.innerHTML=html+"</div>";
  }else if(calendarView==="week"){
   const m=monday(calendarDate),s=new Date(m);s.setDate(m.getDate()+6);$("#periodTitle").textContent=`${formatDate(iso(m))} – ${formatDate(iso(s))}`;
-  c.innerHTML='<div class="week-cards">'+Array.from({length:7},(_,i)=>{const d=new Date(m);d.setDate(m.getDate()+i);const id=iso(d),items=db.tasks.filter(t=>t.date===id);if(!items.length)return '<div class="week-empty"></div>';return `<button class="week-card ${id===selectedDate?"selected":""}" data-date="${id}"><strong>${new Intl.DateTimeFormat("ca-ES",{weekday:"short",day:"numeric"}).format(d)}</strong><span>${items.length} ${items.length===1?"tasca":"tasques"}</span></button>`}).join("")+"</div>";
+  c.innerHTML='<div class="week-cards">'+Array.from({length:7},(_,i)=>{const d=new Date(m);d.setDate(m.getDate()+i);const id=iso(d),items=db.tasks.filter(t=>t.date===id);return `<button class="week-card ${id===selectedDate?"selected":""} ${items.length?"":"empty"}" data-date="${id}"><strong>${new Intl.DateTimeFormat("ca-ES",{weekday:"short",day:"numeric"}).format(d)}</strong>${items.length?`<span>${items.length} ${items.length===1?"tasca":"tasques"}</span>`:""}</button>`}).join("")+"</div>";
  }else{
   const id=iso(calendarDate);$("#periodTitle").textContent=formatDate(id,{weekday:"long",day:"numeric",month:"long"});const ts=db.tasks.filter(t=>t.date===id);c.innerHTML=ts.length?ts.map(t=>`<article class="task" data-edit-task="${t.id}"><div class="task-main"><strong>${esc(t.title)}</strong><div class="meta">${esc(subjectName(t.subject)||"General")}</div></div><span class="task-type ${taskTypeClass(t.type)}">${esc(t.type)}</span></article>`).join(""):`<div class="empty">No hi ha res programat.</div>`;
  }
@@ -53,9 +58,13 @@ function openSimple(title,fields,onSave){simpleConfig={fields,onSave};$("#simple
 function showScreen(id){$$(".screen").forEach(s=>s.classList.toggle("active",s.id===id));$$(".nav-item").forEach(n=>n.classList.toggle("active",n.dataset.screen===id));$("#menuSheet").classList.remove("open");window.scrollTo({top:0,behavior:"smooth"})}
 
 document.addEventListener("change",e=>{const todo=e.target.closest("[data-todo-input]");if(todo){const t=db.todos.find(x=>x.id===todo.dataset.todoInput);const value=todo.value.trim();if(value){t.text=value;save()}else todo.value=t.text}});
+document.addEventListener("input",e=>{const ti=e.target.closest("[data-todo-input]");if(ti){const t=db.todos.find(x=>x.id===ti.dataset.todoInput);if(t){t.text=ti.value;localStorage.setItem(KEY,JSON.stringify(db))}}});
+document.addEventListener("change",e=>{const ti=e.target.closest("[data-todo-input]");if(ti){const t=db.todos.find(x=>x.id===ti.dataset.todoInput);if(t){t.text=ti.value.trim()||"Nova tasca";save()}}});
+document.addEventListener("keydown",e=>{const ti=e.target.closest("[data-todo-input]");if(ti&&e.key==="Enter"){e.preventDefault();ti.blur()}});
 document.addEventListener("click",e=>{const screen=e.target.closest("[data-screen]");if(screen){showScreen(screen.dataset.screen);return}const date=e.target.closest("[data-date]");if(date){openDay(date.dataset.date);return}const toggle=e.target.closest("[data-toggle-task]");if(toggle){const t=db.tasks.find(x=>x.id===toggle.dataset.toggleTask);t.done=!t.done;save();if($("#dayDialog").open)openDay(selectedDate);return}const edit=e.target.closest("[data-edit-task]");if(edit){openTask(db.tasks.find(x=>x.id===edit.dataset.editTask));return}const tt=e.target.closest("[data-toggle-todo]");if(tt){const t=db.todos.find(x=>x.id===tt.dataset.toggleTodo);t.done=!t.done;save();return}if(e.target.dataset.deleteTodo){db.todos=db.todos.filter(x=>x.id!==e.target.dataset.deleteTodo);save()}const habit=e.target.closest("[data-habit]");if(habit){const h=db.habits.find(x=>x.id===habit.dataset.habit);h.days=h.days||{};h.days[habit.dataset.habitDate]=!h.days[habit.dataset.habitDate];save();return}if(e.target.dataset.deleteHabit){db.habits=db.habits.filter(x=>x.id!==e.target.dataset.deleteHabit);save()}if(e.target.dataset.deleteSubject){db.tasks.forEach(t=>{if(t.subject===e.target.dataset.deleteSubject)t.subject=""});db.subjects=db.subjects.filter(x=>x.id!==e.target.dataset.deleteSubject);save()}if(e.target.dataset.deleteScheduleItem){const s=db.schedules.find(x=>x.id===activeScheduleId);s.items=s.items.filter(x=>x.id!==e.target.dataset.deleteScheduleItem);save()}if(e.target.dataset.deleteScheduleProfile){if(db.schedules.length===1)return alert("Has de conservar almenys un horari.");db.schedules=db.schedules.filter(x=>x.id!==e.target.dataset.deleteScheduleProfile);activeScheduleId=db.schedules[0].id;save()}const close=e.target.closest("[data-close-dialog]");if(close)$("#"+close.dataset.closeDialog).close()});
 $("#addTodo").onclick=()=>{db.todos.push({id:uid(),text:"Nova tasca ràpida",done:false});save();setTimeout(()=>{const inputs=$$("[data-todo-input]");inputs.at(-1)?.select()},30)};
 $("#createTaskForDay").onclick=()=>{$("#dayDialog").close();openTask(null,selectedDate)};
+$("#calendarAddTask").onclick=()=>openTask(null,selectedDate);
 $("#menuBtn").onclick=()=>$("#menuSheet").classList.add("open");$("#closeMenu").onclick=()=>$("#menuSheet").classList.remove("open");
 $$("[data-task-filter]").forEach(b=>b.onclick=()=>{taskFilter=b.dataset.taskFilter;$$("[data-task-filter]").forEach(x=>x.classList.toggle("active",x===b));renderTasks()});
 $$("[data-calendar-view]").forEach(b=>b.onclick=()=>{calendarView=b.dataset.calendarView;renderCalendar()});

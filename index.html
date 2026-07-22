@@ -21,12 +21,15 @@
       <div class="section-head first"><h2>To-do list</h2><button class="text-btn" id="addTodo">＋ Afegir</button></div>
       <div id="todoList" class="stack"></div>
 
-      <div class="section-head">
+      <div class="section-head calendar-heading">
         <h2>Calendari</h2>
-        <div class="segmented">
+        <div class="calendar-head-actions">
+          <button class="calendar-plus" id="calendarAddTask" aria-label="Afegir tasca">＋</button>
+          <div class="segmented">
           <button class="seg active" data-calendar-view="month">Mes</button>
           <button class="seg" data-calendar-view="week">Setmana</button>
           <button class="seg" data-calendar-view="day">Dia</button>
+          </div>
         </div>
       </div>
       <div class="calendar-card">
@@ -40,9 +43,12 @@
     </section>
 
     <section class="screen" id="tasksScreen">
-      <div class="section-head first"><div><small>Tasques del calendari</small><h2>Per fer</h2></div></div>
+      <div class="section-head first"><h2>Entregues</h2></div>
       <div class="filters">
-        <button class="chip active" data-task-filter="week">Aquesta setmana</button>
+        <button class="chip active" data-task-filter="next">Avui i demà</button>
+        <button class="chip" data-task-filter="today">Avui</button>
+        <button class="chip" data-task-filter="tomorrow">Demà</button>
+        <button class="chip" data-task-filter="week">Setmana</button>
         <button class="chip" data-task-filter="all">Totes</button>
         <button class="chip" data-task-filter="done">Fetes</button>
       </div>
@@ -51,7 +57,7 @@
 
     <section class="screen" id="clockScreen">
       <div class="section-head first">
-        <div><small>Temps i concentració</small><h2>Rellotge</h2></div>
+        <h2>Rellotge</h2>
         <button class="fullscreen-icon" id="fullscreenBtn" aria-label="Pantalla completa">⛶</button>
       </div>
       <div class="segmented wide clock-mode-picker">
@@ -68,21 +74,21 @@
 
     <section class="screen" id="subjectsScreen">
       <div class="section-head first">
-        <div class="title-with-icon"><span class="section-icon">▤</span><div><small>Organització acadèmica</small><h2>Assignatures</h2></div></div>
+        <div class="title-with-icon"><span class="section-icon">▤</span><h2>Assignatures</h2></div>
         <button class="dark compact" id="addSubjectBtn">Nova</button>
       </div>
       <div id="subjectsList" class="subject-sections"></div>
     </section>
 
     <section class="screen" id="habitsScreen">
-      <div class="section-head first"><div><small>Seguiment mensual</small><h2>Hàbits</h2></div><button class="dark compact" id="addHabitBtn">Nou</button></div>
+      <div class="section-head first"><h2>Hàbits</h2><button class="dark compact" id="addHabitBtn">Nou</button></div>
       <div class="habit-nav"><button class="round soft" id="habitPrev">‹</button><button class="period-title" id="habitMonthTitle"></button><button class="round soft" id="habitNext">›</button></div>
       <button class="text-btn habit-today" id="habitToday">Mes actual</button>
       <div id="habitsList" class="stack"></div>
     </section>
 
     <section class="screen" id="scheduleScreen">
-      <div class="section-head first"><div><small>Classes i activitats</small><h2>Horaris</h2></div></div>
+      <div class="section-head first"><h2>Horaris</h2></div>
       <div class="schedule-toolbar">
         <select id="scheduleSelector" aria-label="Seleccionar horari"></select>
         <button class="small-plus" id="newScheduleBtn" aria-label="Nou horari">＋</button>
@@ -93,7 +99,7 @@
 
   <nav class="bottom-nav">
     <button class="nav-item active" data-screen="homeScreen"><span>⌂</span>Inici</button>
-    <button class="nav-item" data-screen="tasksScreen"><span>☑</span>Per fer</button>
+    <button class="nav-item" data-screen="tasksScreen"><span>□</span>Entregues</button>
     <button class="nav-item" data-screen="clockScreen"><span>◷</span>Rellotge</button>
     <button class="nav-item" id="menuBtn"><span>•••</span>Menú</button>
   </nav>
@@ -110,7 +116,7 @@
 
 <dialog id="dayDialog">
   <div class="dialog-body">
-    <div class="dialog-head"><div><small id="dayDialogDate"></small><h2>Planificació del dia</h2></div><button class="round soft" data-close-dialog="dayDialog">×</button></div>
+    <div class="dialog-head"><div><h2 id="dayDialogDate"></h2></div><button class="round soft" data-close-dialog="dayDialog">×</button></div>
     <div id="dayTaskList" class="stack"></div>
     <button class="dark full-btn" id="createTaskForDay">＋ Crear tasca</button>
   </div>
