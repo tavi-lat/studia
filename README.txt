@@ -1,15 +1,20 @@
-PLANNER V5
+PLANNER V6
 
-CANVI INCLOS
-- S'ha eliminat el tipus "Examen".
-- "AC" queda com a tipus de tasca habitual.
-- "Examen final" es manté com a opció separada i destacada.
-- Les tasques antigues guardades com a "Examen" es converteixen automàticament en "AC".
+CANVIS PRINCIPALS
+- Paleta exclusivament neutra i terracota; cap blau.
+- To-do list independent, editable i sense connexió amb calendari o assignatures.
+- La barra inferior mostra Inici, Per fer, Rellotge i Menú.
+- Per fer conté les tasques del calendari.
+- Les tasques només es poden crear clicant un dia del calendari.
+- Clicar un dia mostra totes les tasques d’aquell dia.
+- Sense recordatoris ni camp de recordatori a les tasques.
+- Assignatures sense colors.
+- Colors reservats als tipus de tasca.
+- Mateixa icona negra minimalista per ampliar i reduir el rellotge.
+- Horaris múltiples amb selector superior; cada horari pot ser manual o una fotografia.
 
-PER ACTUALITZAR GITHUB
-1. Descomprimeix el ZIP.
-2. Entra al repositori.
-3. Add file > Upload files.
-4. Puja tots els fitxers i substitueix els existents.
-5. Prem Commit changes.
-6. Espera uns minuts i actualitza la web amb Ctrl + F5.
+ACTUALITZAR GITHUB
+1. Descomprimeix Planner_v6.zip.
+2. Puja tots els fitxers al repositori i substitueix els anteriors.
+3. Prem Commit changes.
+4. Espera uns minuts i actualitza amb Ctrl + F5.

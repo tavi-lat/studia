@@ -11,214 +11,143 @@
   <title>Planner</title>
 </head>
 <body>
-  <div class="app">
-    <header class="topbar">
-      <div>
-        <small id="todayLabel"></small>
-        <h1>Planner</h1>
+<div class="app">
+  <header class="topbar">
+    <div><small id="todayLabel"></small><h1>Planner</h1></div>
+  </header>
+
+  <main>
+    <section class="screen active" id="homeScreen">
+      <div class="section-head first"><h2>To-do list</h2><button class="text-btn" id="addTodo">＋ Afegir</button></div>
+      <div id="todoList" class="stack"></div>
+
+      <div class="section-head">
+        <h2>Calendari</h2>
+        <div class="segmented">
+          <button class="seg active" data-calendar-view="month">Mes</button>
+          <button class="seg" data-calendar-view="week">Setmana</button>
+          <button class="seg" data-calendar-view="day">Dia</button>
+        </div>
       </div>
-      <button class="round dark" id="quickAdd" aria-label="Afegir tasca">＋</button>
-    </header>
+      <div class="calendar-card">
+        <div class="calendar-nav">
+          <button class="round soft" id="prevPeriod">‹</button>
+          <button class="period-title" id="periodTitle"></button>
+          <button class="round soft" id="nextPeriod">›</button>
+        </div>
+        <div id="calendar"></div>
+      </div>
+    </section>
 
-    <main>
-      <section class="screen active" id="homeScreen">
-        <div class="section-head first">
-          <h2>Per fer</h2>
-        </div>
-        <div class="filters">
-          <button class="chip active" data-task-filter="today">Avui</button>
-          <button class="chip" data-task-filter="week">Aquesta setmana</button>
-          <button class="chip" data-task-filter="all">Totes</button>
-        </div>
-        <div id="taskList" class="stack"></div>
+    <section class="screen" id="tasksScreen">
+      <div class="section-head first"><div><small>Tasques del calendari</small><h2>Per fer</h2></div></div>
+      <div class="filters">
+        <button class="chip active" data-task-filter="week">Aquesta setmana</button>
+        <button class="chip" data-task-filter="all">Totes</button>
+        <button class="chip" data-task-filter="done">Fetes</button>
+      </div>
+      <div id="taskList" class="stack"></div>
+    </section>
 
-        <div class="section-head">
-          <h2>Calendari</h2>
-          <div class="segmented">
-            <button class="seg active" data-calendar-view="month">Mes</button>
-            <button class="seg" data-calendar-view="week">Setmana</button>
-            <button class="seg" data-calendar-view="day">Dia</button>
-          </div>
-        </div>
-        <div class="calendar-card">
-          <div class="calendar-nav">
-            <button class="round soft" id="prevPeriod">‹</button>
-            <button class="period-title" id="periodTitle"></button>
-            <button class="round soft" id="nextPeriod">›</button>
-          </div>
-          <div id="calendar"></div>
-          <button class="calendar-add" id="addTaskBtn">＋ Afegir tasca</button>
-        </div>
-      </section>
+    <section class="screen" id="clockScreen">
+      <div class="section-head first">
+        <div><small>Temps i concentració</small><h2>Rellotge</h2></div>
+        <button class="fullscreen-icon" id="fullscreenBtn" aria-label="Pantalla completa">⛶</button>
+      </div>
+      <div class="segmented wide clock-mode-picker">
+        <button class="seg active" data-clock-mode="pomodoro">Pomodoro</button>
+        <button class="seg" data-clock-mode="timer">Temporitzador</button>
+        <button class="seg" data-clock-mode="clock">Rellotge</button>
+      </div>
+      <div class="clock-panel" id="clockPanel">
+        <button class="fullscreen-icon clock-exit" id="minimizeClock" aria-label="Fer petit">⛶</button>
+        <div id="clockDisplay">25:00</div>
+        <div id="clockControls"></div>
+      </div>
+    </section>
 
-      <section class="screen" id="remindersScreen">
-        <div class="section-head first">
-          <div>
-            <small>Setmana actual</small>
-            <h2>Recordatoris</h2>
-          </div>
-          <button class="dark compact" id="addReminderBtn">Nou</button>
-        </div>
-        <div id="remindersList" class="stack"></div>
-      </section>
+    <section class="screen" id="subjectsScreen">
+      <div class="section-head first">
+        <div class="title-with-icon"><span class="section-icon">▤</span><div><small>Organització acadèmica</small><h2>Assignatures</h2></div></div>
+        <button class="dark compact" id="addSubjectBtn">Nova</button>
+      </div>
+      <div id="subjectsList" class="subject-sections"></div>
+    </section>
 
-      <section class="screen" id="clockScreen">
-        <div class="section-head first">
-          <div>
-            <small>Temps i concentració</small>
-            <h2>Rellotge</h2>
-          </div>
-          <button class="icon-action" id="fullscreenBtn" aria-label="Pantalla completa" title="Pantalla completa">⛶</button>
-        </div>
+    <section class="screen" id="habitsScreen">
+      <div class="section-head first"><div><small>Seguiment mensual</small><h2>Hàbits</h2></div><button class="dark compact" id="addHabitBtn">Nou</button></div>
+      <div class="habit-nav"><button class="round soft" id="habitPrev">‹</button><button class="period-title" id="habitMonthTitle"></button><button class="round soft" id="habitNext">›</button></div>
+      <button class="text-btn habit-today" id="habitToday">Mes actual</button>
+      <div id="habitsList" class="stack"></div>
+    </section>
 
-        <div class="segmented wide clock-mode-picker">
-          <button class="seg active" data-clock-mode="pomodoro">Pomodoro</button>
-          <button class="seg" data-clock-mode="timer">Temporitzador</button>
-          <button class="seg" data-clock-mode="clock">Rellotge</button>
-        </div>
+    <section class="screen" id="scheduleScreen">
+      <div class="section-head first"><div><small>Classes i activitats</small><h2>Horaris</h2></div></div>
+      <div class="schedule-toolbar">
+        <select id="scheduleSelector" aria-label="Seleccionar horari"></select>
+        <button class="small-plus" id="newScheduleBtn" aria-label="Nou horari">＋</button>
+      </div>
+      <div id="scheduleContent"></div>
+    </section>
+  </main>
 
-        <div class="clock-panel">
-          <button class="clock-minimize" id="minimizeClock" aria-label="Sortir de pantalla completa" title="Fer petit">▣</button>
-          <div id="clockDisplay">25:00</div>
-          <div id="clockControls"></div>
-        </div>
-      </section>
+  <nav class="bottom-nav">
+    <button class="nav-item active" data-screen="homeScreen"><span>⌂</span>Inici</button>
+    <button class="nav-item" data-screen="tasksScreen"><span>☑</span>Per fer</button>
+    <button class="nav-item" data-screen="clockScreen"><span>◷</span>Rellotge</button>
+    <button class="nav-item" id="menuBtn"><span>•••</span>Menú</button>
+  </nav>
+</div>
 
-      <section class="screen" id="subjectsScreen">
-        <div class="section-head first">
-          <div class="title-with-icon">
-            <span class="section-icon">▤</span>
-            <div>
-              <small>Organització acadèmica</small>
-              <h2>Assignatures</h2>
-            </div>
-          </div>
-          <button class="dark compact" id="addSubjectBtn">Nova</button>
-        </div>
-        <div id="subjectsList" class="subject-sections"></div>
-      </section>
-
-      <section class="screen" id="habitsScreen">
-        <div class="section-head first">
-          <div>
-            <small>Seguiment mensual</small>
-            <h2>Hàbits</h2>
-          </div>
-          <button class="dark compact" id="addHabitBtn">Nou</button>
-        </div>
-        <div class="habit-nav">
-          <button class="round soft" id="habitPrev">‹</button>
-          <button class="period-title" id="habitMonthTitle"></button>
-          <button class="round soft" id="habitNext">›</button>
-        </div>
-        <button class="text-btn habit-today" id="habitToday">Mes actual</button>
-        <div id="habitsList" class="stack"></div>
-      </section>
-
-      <section class="screen" id="scheduleScreen">
-        <div class="section-head first">
-          <div>
-            <small>Classes i activitats</small>
-            <h2>Horari</h2>
-          </div>
-        </div>
-
-        <label class="schedule-mode-select">
-          Com vols configurar l’horari?
-          <select id="scheduleModeSelect">
-            <option value="manual">Manualment</option>
-            <option value="photo">Amb una fotografia</option>
-          </select>
-        </label>
-
-        <div id="scheduleManualPanel">
-          <div class="section-head">
-            <h3>Horari manual</h3>
-            <button class="dark compact" id="addScheduleBtn">Afegir</button>
-          </div>
-          <div class="schedule-week" id="scheduleGrid"></div>
-        </div>
-
-        <div id="schedulePhotoPanel" class="hidden">
-          <label class="photo-upload">
-            <input id="schedulePhotoInput" type="file" accept="image/*">
-            <span>Seleccionar fotografia</span>
-          </label>
-          <div id="schedulePhotoPreview"></div>
-        </div>
-      </section>
-    </main>
-
-    <nav class="bottom-nav">
-      <button class="nav-item active" data-screen="homeScreen"><span>⌂</span>Inici</button>
-      <button class="nav-item" data-screen="remindersScreen"><span>◉</span>Recordatoris</button>
-      <button class="nav-item" data-screen="clockScreen"><span>◷</span>Rellotge</button>
-      <button class="nav-item" id="menuBtn"><span>•••</span>Menú</button>
-    </nav>
+<div class="menu-sheet" id="menuSheet">
+  <div class="menu-card">
+    <div class="menu-head"><h2>Menú</h2><button class="round soft" id="closeMenu">×</button></div>
+    <button class="menu-link" data-screen="subjectsScreen">Assignatures <span>›</span></button>
+    <button class="menu-link" data-screen="habitsScreen">Hàbits <span>›</span></button>
+    <button class="menu-link" data-screen="scheduleScreen">Horaris <span>›</span></button>
   </div>
+</div>
 
-  <div class="menu-sheet" id="menuSheet">
-    <div class="menu-card">
-      <div class="menu-head">
-        <h2>Menú</h2>
-        <button class="round soft" id="closeMenu">×</button>
-      </div>
-      <button class="menu-link" data-screen="subjectsScreen">Assignatures <span>›</span></button>
-      <button class="menu-link" data-screen="habitsScreen">Hàbits <span>›</span></button>
-      <button class="menu-link" data-screen="scheduleScreen">Horari <span>›</span></button>
+<dialog id="dayDialog">
+  <div class="dialog-body">
+    <div class="dialog-head"><div><small id="dayDialogDate"></small><h2>Planificació del dia</h2></div><button class="round soft" data-close-dialog="dayDialog">×</button></div>
+    <div id="dayTaskList" class="stack"></div>
+    <button class="dark full-btn" id="createTaskForDay">＋ Crear tasca</button>
+  </div>
+</dialog>
+
+<dialog id="taskDialog">
+  <form id="taskForm">
+    <div class="dialog-head"><h2 id="taskDialogTitle">Nova tasca</h2><button type="button" class="round soft" data-close-dialog="taskDialog">×</button></div>
+    <input type="hidden" id="taskId">
+    <label>Títol<input id="taskTitle" required></label>
+    <label>Data<input id="taskDate" type="date" required></label>
+    <div class="form-grid">
+      <label>Assignatura<select id="taskSubject"><option value="">Cap</option></select></label>
+      <label>Tipus de tasca<select id="taskType"><option>AC</option><option>Examen final</option><option>Deures</option><option>Projecte</option><option>Personal</option><option>Cau</option><option>Altres</option></select></label>
     </div>
-  </div>
+    <label>Comentaris<textarea id="taskComments"></textarea></label>
+    <div class="dialog-actions"><button type="button" class="danger-btn hidden" id="deleteTaskBtn">Eliminar</button><button type="button" class="soft-btn" data-close-dialog="taskDialog">Cancel·lar</button><button class="dark-btn" type="submit">Guardar</button></div>
+  </form>
+</dialog>
 
-  <dialog id="taskDialog">
-    <form id="taskForm">
-      <div class="dialog-head">
-        <h2 id="taskDialogTitle">Nova tasca</h2>
-        <button type="button" class="round soft" data-close-dialog="taskDialog">×</button>
-      </div>
-      <input type="hidden" id="taskId">
-      <label>Títol<input id="taskTitle" required></label>
-      <label>Data<input id="taskDate" type="date" required></label>
-      <div class="form-grid">
-        <label>Assignatura<select id="taskSubject"><option value="">Cap</option></select></label>
-        <label>Prioritat<select id="taskPriority"><option>Normal</option><option>Baixa</option><option>Alta</option><option>Urgent</option></select></label>
-      </div>
-      <div class="form-grid">
-        <label>Tipus de tasca
-          <select id="taskType">
-            <option>AC</option>
-            <option>Examen final</option>
-            <option>Deures</option>
-            <option>Projecte</option>
-            <option>Personal</option>
-            <option>Cau</option>
-            <option>Altres</option>
-          </select>
-        </label>
-        <label>Recordatori<input id="taskReminder" type="date"></label>
-      </div>
-      <label>Comentaris<textarea id="taskComments"></textarea></label>
-      <div class="dialog-actions">
-        <button type="button" class="danger-btn hidden" id="deleteTaskBtn">Eliminar</button>
-        <button type="button" class="soft-btn" data-close-dialog="taskDialog">Cancel·lar</button>
-        <button class="dark-btn" type="submit">Guardar</button>
-      </div>
-    </form>
-  </dialog>
+<dialog id="simpleDialog">
+  <form id="simpleForm">
+    <div class="dialog-head"><h2 id="simpleTitle"></h2><button type="button" class="round soft" data-close-dialog="simpleDialog">×</button></div>
+    <div id="simpleFields"></div>
+    <div class="dialog-actions"><button type="button" class="soft-btn" data-close-dialog="simpleDialog">Cancel·lar</button><button class="dark-btn" type="submit">Guardar</button></div>
+  </form>
+</dialog>
 
-  <dialog id="simpleDialog">
-    <form id="simpleForm">
-      <div class="dialog-head">
-        <h2 id="simpleTitle"></h2>
-        <button type="button" class="round soft" data-close-dialog="simpleDialog">×</button>
-      </div>
-      <div id="simpleFields"></div>
-      <div class="dialog-actions">
-        <button type="button" class="soft-btn" data-close-dialog="simpleDialog">Cancel·lar</button>
-        <button class="dark-btn" type="submit">Guardar</button>
-      </div>
-    </form>
-  </dialog>
+<dialog id="scheduleDialog">
+  <form id="scheduleForm">
+    <div class="dialog-head"><h2>Nou horari</h2><button type="button" class="round soft" data-close-dialog="scheduleDialog">×</button></div>
+    <label>Nom de l’horari<input id="scheduleName" required placeholder="Universitat, exàmens..."></label>
+    <label>Format<select id="scheduleMode"><option value="manual">Manual</option><option value="photo">Fotografia</option></select></label>
+    <div class="dialog-actions"><button type="button" class="soft-btn" data-close-dialog="scheduleDialog">Cancel·lar</button><button class="dark-btn" type="submit">Crear</button></div>
+  </form>
+</dialog>
 
-  <script src="app.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
