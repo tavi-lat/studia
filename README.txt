@@ -1,21 +1,23 @@
-PLANNER V2
+PLANNER V3
 
-Per actualitzar GitHub Pages:
-1. Descomprimeix aquest ZIP.
-2. Entra al repositori planner.
+CANVIS INCLOSOS
+- Tasques sense hora.
+- Les tasques només es creen des del calendari.
+- Recordatori opcional en crear una tasca.
+- Tipus de tasca amb etiqueta terracota.
+- Hàbits amb navegació entre mesos.
+- Rellotge amb botó de pantalla completa i botó per fer-lo petit.
+- En pantalla completa només es mostra el temps.
+- Icona a la pantalla d’assignatures.
+- Horari manual o amb fotografia.
+- Botó d’eliminació de classes discret i lateral.
+- Barra inferior: Inici, Recordatoris, Rellotge i Menú.
+- Assignatures, Hàbits i Horari dins del menú.
+
+PER ACTUALITZAR GITHUB
+1. Descomprimeix el ZIP.
+2. Entra al repositori.
 3. Add file > Upload files.
-4. Arrossega tots els fitxers d’aquesta carpeta.
-5. Marca l’opció de substituir els fitxers existents si GitHub ho demana.
-6. Prem Commit changes.
-7. Espera 1-5 minuts i actualitza l’enllaç de GitHub Pages.
-
-Funcions incloses:
-- To-do list com a primera secció.
-- Calendari mensual, setmanal amb quadrats i diari.
-- Pantalla d’assignatures amb tasques agrupades.
-- Hàbits amb calendari mensual independent.
-- Pomodoro configurable, temporitzador i rellotge.
-- Mode de pantalla completa.
-- Recordatoris setmanals ordenats.
-- Horari setmanal.
-- Sense còpia de seguretat.
+4. Puja tots els fitxers i substitueix els existents.
+5. Prem Commit changes.
+6. Espera uns minuts i força l’actualització de la web.

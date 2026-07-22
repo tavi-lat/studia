@@ -17,14 +17,12 @@
         <small id="todayLabel"></small>
         <h1>Planner</h1>
       </div>
-      <button class="round dark" id="quickAdd">＋</button>
     </header>
 
     <main>
       <section class="screen active" id="homeScreen">
         <div class="section-head first">
           <h2>Per fer</h2>
-          <button class="text-btn" id="addTaskBtn">Afegir</button>
         </div>
         <div class="filters">
           <button class="chip active" data-task-filter="today">Avui</button>
@@ -48,48 +46,7 @@
             <button class="round soft" id="nextPeriod">›</button>
           </div>
           <div id="calendar"></div>
-        </div>
-      </section>
-
-      <section class="screen" id="subjectsScreen">
-        <div class="section-head first">
-          <div>
-            <small>Organització acadèmica</small>
-            <h2>Assignatures</h2>
-          </div>
-          <button class="dark compact" id="addSubjectBtn">Nova</button>
-        </div>
-        <div id="subjectsList" class="subject-sections"></div>
-      </section>
-
-      <section class="screen" id="habitsScreen">
-        <div class="section-head first">
-          <div>
-            <small>Seguiment mensual</small>
-            <h2>Hàbits</h2>
-          </div>
-          <button class="dark compact" id="addHabitBtn">Nou</button>
-        </div>
-        <div id="habitsList" class="stack"></div>
-      </section>
-
-      <section class="screen" id="clockScreen">
-        <div class="section-head first">
-          <div>
-            <small>Temps i concentració</small>
-            <h2>Rellotge</h2>
-          </div>
-          <button class="soft compact" id="fullscreenBtn">Pantalla completa</button>
-        </div>
-        <div class="segmented wide">
-          <button class="seg active" data-clock-mode="pomodoro">Pomodoro</button>
-          <button class="seg" data-clock-mode="timer">Temporitzador</button>
-          <button class="seg" data-clock-mode="clock">Rellotge</button>
-        </div>
-
-        <div class="clock-panel">
-          <div id="clockDisplay">25:00</div>
-          <div id="clockControls"></div>
+          <button class="calendar-add" id="addTaskBtn">＋ Afegir tasca</button>
         </div>
       </section>
 
@@ -104,22 +61,102 @@
         <div id="remindersList" class="stack"></div>
       </section>
 
+      <section class="screen" id="clockScreen">
+        <div class="section-head first">
+          <div>
+            <small>Temps i concentració</small>
+            <h2>Rellotge</h2>
+          </div>
+          <button class="icon-action" id="fullscreenBtn" aria-label="Pantalla completa" title="Pantalla completa">⛶</button>
+        </div>
+
+        <div class="segmented wide clock-mode-picker">
+          <button class="seg active" data-clock-mode="pomodoro">Pomodoro</button>
+          <button class="seg" data-clock-mode="timer">Temporitzador</button>
+          <button class="seg" data-clock-mode="clock">Rellotge</button>
+        </div>
+
+        <div class="clock-panel">
+          <button class="clock-minimize" id="minimizeClock" aria-label="Sortir de pantalla completa" title="Fer petit">↙</button>
+          <div id="clockDisplay">25:00</div>
+          <div id="clockControls"></div>
+        </div>
+      </section>
+
+      <section class="screen" id="subjectsScreen">
+        <div class="section-head first">
+          <div class="title-with-icon">
+            <span class="section-icon">▤</span>
+            <div>
+              <small>Organització acadèmica</small>
+              <h2>Assignatures</h2>
+            </div>
+          </div>
+          <button class="dark compact" id="addSubjectBtn">Nova</button>
+        </div>
+        <div id="subjectsList" class="subject-sections"></div>
+      </section>
+
+      <section class="screen" id="habitsScreen">
+        <div class="section-head first">
+          <div>
+            <small>Seguiment mensual</small>
+            <h2>Hàbits</h2>
+          </div>
+          <button class="dark compact" id="addHabitBtn">Nou</button>
+        </div>
+        <div class="habit-nav">
+          <button class="round soft" id="habitPrev">‹</button>
+          <button class="period-title" id="habitMonthTitle"></button>
+          <button class="round soft" id="habitNext">›</button>
+        </div>
+        <button class="text-btn habit-today" id="habitToday">Mes actual</button>
+        <div id="habitsList" class="stack"></div>
+      </section>
+
       <section class="screen" id="scheduleScreen">
         <div class="section-head first">
           <div>
             <small>Classes i activitats</small>
             <h2>Horari</h2>
           </div>
-          <button class="dark compact" id="addScheduleBtn">Afegir</button>
         </div>
-        <div class="schedule-week" id="scheduleGrid"></div>
+
+        <div class="schedule-choice">
+          <button class="choice-card" id="manualScheduleChoice">
+            <span class="choice-icon">▦</span>
+            <strong>Crear-lo manualment</strong>
+            <small>Afegeix classes per dia i hora</small>
+          </button>
+          <button class="choice-card" id="photoScheduleChoice">
+            <span class="choice-icon">▧</span>
+            <strong>Pujar una fotografia</strong>
+            <small>Consulta ràpidament el teu horari</small>
+          </button>
+        </div>
+
+        <div id="scheduleManualPanel" class="hidden">
+          <div class="section-head">
+            <h3>Horari manual</h3>
+            <button class="dark compact" id="addScheduleBtn">Afegir</button>
+          </div>
+          <div class="schedule-week" id="scheduleGrid"></div>
+        </div>
+
+        <div id="schedulePhotoPanel" class="hidden">
+          <label class="photo-upload">
+            <input id="schedulePhotoInput" type="file" accept="image/*">
+            <span>Seleccionar fotografia</span>
+          </label>
+          <div id="schedulePhotoPreview"></div>
+        </div>
       </section>
     </main>
 
     <nav class="bottom-nav">
       <button class="nav-item active" data-screen="homeScreen"><span>⌂</span>Inici</button>
-      <button class="nav-item" data-screen="subjectsScreen"><span>□</span>Assignatures</button>
-      <button class="nav-item" data-screen="habitsScreen"><span>✓</span>Hàbits</button>
+      <button class="nav-item" data-screen="remindersScreen"><span>◉</span>Recordatoris</button>
+      <button class="nav-item" data-screen="clockScreen"><span>◷</span>Rellotge</button>
       <button class="nav-item" id="menuBtn"><span>•••</span>Menú</button>
     </nav>
   </div>
@@ -130,8 +167,8 @@
         <h2>Menú</h2>
         <button class="round soft" id="closeMenu">×</button>
       </div>
-      <button class="menu-link" data-screen="clockScreen">Rellotge i focus <span>›</span></button>
-      <button class="menu-link" data-screen="remindersScreen">Recordatoris <span>›</span></button>
+      <button class="menu-link" data-screen="subjectsScreen">Assignatures <span>›</span></button>
+      <button class="menu-link" data-screen="habitsScreen">Hàbits <span>›</span></button>
       <button class="menu-link" data-screen="scheduleScreen">Horari <span>›</span></button>
     </div>
   </div>
@@ -144,13 +181,25 @@
       </div>
       <input type="hidden" id="taskId">
       <label>Títol<input id="taskTitle" required></label>
-      <div class="form-grid">
-        <label>Data<input id="taskDate" type="date" required></label>
-        <label>Hora<input id="taskTime" type="time"></label>
-      </div>
+      <label>Data<input id="taskDate" type="date" required></label>
       <div class="form-grid">
         <label>Assignatura<select id="taskSubject"><option value="">Cap</option></select></label>
         <label>Prioritat<select id="taskPriority"><option>Normal</option><option>Baixa</option><option>Alta</option><option>Urgent</option></select></label>
+      </div>
+      <div class="form-grid">
+        <label>Tipus de tasca
+          <select id="taskType">
+            <option>Examen</option>
+            <option>Entrega</option>
+            <option>Estudi</option>
+            <option>Lectura</option>
+            <option>Treball</option>
+            <option>Presentació</option>
+            <option>Personal</option>
+            <option>Altres</option>
+          </select>
+        </label>
+        <label>Recordatori<input id="taskReminder" type="date"></label>
       </div>
       <label>Comentaris<textarea id="taskComments"></textarea></label>
       <div class="dialog-actions">
