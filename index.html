@@ -17,6 +17,7 @@
         <small id="todayLabel"></small>
         <h1>Planner</h1>
       </div>
+      <button class="round dark" id="quickAdd" aria-label="Afegir tasca">＋</button>
     </header>
 
     <main>
@@ -77,7 +78,7 @@
         </div>
 
         <div class="clock-panel">
-          <button class="clock-minimize" id="minimizeClock" aria-label="Sortir de pantalla completa" title="Fer petit">↙</button>
+          <button class="clock-minimize" id="minimizeClock" aria-label="Sortir de pantalla completa" title="Fer petit">▣</button>
           <div id="clockDisplay">25:00</div>
           <div id="clockControls"></div>
         </div>
@@ -122,20 +123,15 @@
           </div>
         </div>
 
-        <div class="schedule-choice">
-          <button class="choice-card" id="manualScheduleChoice">
-            <span class="choice-icon">▦</span>
-            <strong>Crear-lo manualment</strong>
-            <small>Afegeix classes per dia i hora</small>
-          </button>
-          <button class="choice-card" id="photoScheduleChoice">
-            <span class="choice-icon">▧</span>
-            <strong>Pujar una fotografia</strong>
-            <small>Consulta ràpidament el teu horari</small>
-          </button>
-        </div>
+        <label class="schedule-mode-select">
+          Com vols configurar l’horari?
+          <select id="scheduleModeSelect">
+            <option value="manual">Manualment</option>
+            <option value="photo">Amb una fotografia</option>
+          </select>
+        </label>
 
-        <div id="scheduleManualPanel" class="hidden">
+        <div id="scheduleManualPanel">
           <div class="section-head">
             <h3>Horari manual</h3>
             <button class="dark compact" id="addScheduleBtn">Afegir</button>
@@ -189,13 +185,12 @@
       <div class="form-grid">
         <label>Tipus de tasca
           <select id="taskType">
-            <option>Examen</option>
-            <option>Entrega</option>
-            <option>Estudi</option>
-            <option>Lectura</option>
-            <option>Treball</option>
-            <option>Presentació</option>
+            <option>AC</option>
+            <option>Examen final</option>
+            <option>Deures</option>
+            <option>Projecte</option>
             <option>Personal</option>
+            <option>Cau</option>
             <option>Altres</option>
           </select>
         </label>

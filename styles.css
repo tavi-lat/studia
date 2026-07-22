@@ -31,3 +31,54 @@ button{border:0}.round{width:42px;height:42px;border-radius:50%;display:grid;pla
 dialog{width:min(600px,calc(100% - 24px));border:0;border-radius:24px;background:var(--panel);color:var(--ink)}dialog::backdrop{background:rgba(20,17,14,.4);backdrop-filter:blur(4px)}dialog form{padding:20px}.dialog-head{display:flex;justify-content:space-between;align-items:center}.dialog-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:18px}.danger-btn{background:#f0d7d3;color:var(--danger);border-radius:999px;padding:10px 14px}.soft-btn,.dark-btn{border-radius:999px;padding:10px 14px}
 label{display:grid;gap:6px;margin:12px 0;color:var(--muted);font-size:.85rem}input,select,textarea{width:100%;padding:12px;border:1px solid var(--line);border-radius:14px;background:white;font:inherit}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.hidden{display:none!important}
 @media(max-width:560px){.week-cards{grid-template-columns:repeat(2,1fr)}.schedule-week,.schedule-choice{grid-template-columns:1fr}.form-grid,.clock-settings{grid-template-columns:1fr}.day{min-height:50px;padding:5px}#clockDisplay{font-size:3rem}}
+
+/* Planner v4 */
+.todo-edit{
+  width:100%;
+  border:0;
+  background:transparent;
+  color:var(--ink);
+  padding:2px 0;
+  font:inherit;
+  font-weight:700;
+  outline:none;
+}
+.todo-check{
+  width:24px;
+  height:24px;
+  border:2px solid var(--accent);
+  border-radius:7px;
+  background:white;
+  padding:0;
+  flex:0 0 auto;
+}
+.todo-check.done{background:var(--accent);position:relative}
+.todo-check.done::after{content:"✓";position:absolute;inset:0;display:grid;place-items:center;color:white;font-size:.8rem}
+.task-type{
+  font-size:.7rem;
+  color:white;
+  border-radius:999px;
+  padding:5px 8px;
+  white-space:nowrap;
+}
+.type-ac{background:#b56b52}
+.type-examen-final{background:#6f2b22}
+.type-deures{background:#c78568}
+.type-projecte{background:#a85a44}
+.type-personal{background:#d19a82;color:#3b241d}
+.type-cau{background:#925c4b}
+.type-altres{background:#b9a095;color:#2d211d}
+.schedule-mode-select{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:14px;
+  margin:12px 0 20px;
+}
+.schedule-mode-select select{margin-top:8px}
+.week-card.empty-day{
+  min-height:64px;
+  border-color:transparent;
+  background:transparent;
+  box-shadow:none;
+}
