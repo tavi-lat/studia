@@ -1,12 +1,9 @@
-PLANNER V8
+PLANNER V9
 
 CANVIS INCLOSOS
-- Eliminats els subtítols de totes les pantalles.
-- Botó + per crear tasques situat dins de l’apartat Calendari.
-- Eliminat el botó d’afegir tasca sota del calendari.
-- Botó per afegir ítems de la to-do list situat al final de la llista.
-- Filtres de Tasques: Avui, Demà, Aquesta setmana, Aquest mes i Totes.
-- Nou nom i icona a la barra inferior: Tasques, amb icona minimalista quadrada.
+- Eliminat el botó d’afegir del costat del títol “To do list”.
+- Intercanviada la posició dels tipus de calendari i el botó +.
+- L’apartat “Tasques” de la barra inferior ara té una icona de tick minimalista.
 
 PER ACTUALITZAR GITHUB
 1. Descomprimeix el ZIP.

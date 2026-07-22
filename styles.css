@@ -16,3 +16,13 @@
   border-radius:16px;
   padding:12px;
 }
+
+/* Planner v9 */
+.calendar-head{
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:center;
+}
+.calendar-head .segmented{
+  justify-self:start;
+}
