@@ -1,1 +1,180 @@
-<!doctype html><html lang='ca'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1,viewport-fit=cover'><meta name='theme-color' content='#f3eee5'><meta name='apple-mobile-web-app-capable' content='yes'><link rel='manifest' href='manifest.webmanifest'><link rel='stylesheet' href='styles.css'><title>Studia</title></head><body><header><div><small id='dateLabel'></small><h1>Studia</h1></div><button id='addBtn'>＋</button></header><main><section class='hero'><p>Agenda acadèmica</p><h2 id='summary'>Organitza el teu dia</h2><button id='focusBtn'>Començar focus</button></section><section><div class='title'><h2>Calendari</h2><button id='todayBtn'>Avui</button></div><div class='calendar'><div class='nav'><button id='prevBtn'>‹</button><strong id='monthTitle'></strong><button id='nextBtn'>›</button></div><div class='week'><span>Dl</span><span>Dt</span><span>Dc</span><span>Dj</span><span>Dv</span><span>Ds</span><span>Dg</span></div><div id='days' class='days'></div></div></section><section><div class='title'><h2>Per fer</h2><button id='addInline'>Afegir</button></div><div id='taskList'></div></section><section class='grid'><article class='card'><h3>Assignatures</h3><p id='subjectCount'>0 creades</p><button id='addSubject'>Nova</button></article><article class='card'><h3>Hàbits</h3><p id='habitCount'>0 actius</p><button id='addHabit'>Nou</button></article></section><section class='card'><h3>Focus</h3><div id='timer'>25:00</div><div class='row'><button id='startTimer'>Començar</button><button id='resetTimer'>Reiniciar</button></div></section><section class='card'><div class='title'><h3>Notes ràpides</h3><button id='addNote'>Nova</button></div><div id='notes'></div></section><section class='card'><h3>Còpia de seguretat</h3><div class='row'><button id='exportBtn'>Exportar</button><label class='fileBtn'>Importar<input id='importInput' type='file' accept='.json'></label></div></section></main><dialog id='taskDialog'><form id='taskForm'><h2>Nova tasca</h2><label>Títol<input id='taskTitle' required></label><label>Data<input id='taskDate' type='date' required></label><label>Assignatura<select id='taskSubject'><option value=''>Cap</option></select></label><label>Prioritat<select id='taskPriority'><option>Normal</option><option>Baixa</option><option>Alta</option><option>Urgent</option></select></label><label>Comentaris<textarea id='taskComments'></textarea></label><div class='row end'><button type='button' id='cancelTask'>Cancel·lar</button><button type='submit'>Guardar</button></div></form></dialog><dialog id='simpleDialog'><form id='simpleForm'><h2 id='simpleTitle'></h2><label>Nom o text<input id='simpleInput' required></label><div class='row end'><button type='button' id='simpleCancel'>Cancel·lar</button><button type='submit'>Guardar</button></div></form></dialog><script src='app.js'></script></body></html>
+<!doctype html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f4efe7">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Planner">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+  <title>Planner</title>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div>
+        <small id="todayLabel"></small>
+        <h1>Planner</h1>
+      </div>
+      <button class="round dark" id="quickAdd">＋</button>
+    </header>
+
+    <main>
+      <section class="screen active" id="homeScreen">
+        <div class="section-head first">
+          <h2>Per fer</h2>
+          <button class="text-btn" id="addTaskBtn">Afegir</button>
+        </div>
+        <div class="filters">
+          <button class="chip active" data-task-filter="today">Avui</button>
+          <button class="chip" data-task-filter="week">Aquesta setmana</button>
+          <button class="chip" data-task-filter="all">Totes</button>
+        </div>
+        <div id="taskList" class="stack"></div>
+
+        <div class="section-head">
+          <h2>Calendari</h2>
+          <div class="segmented">
+            <button class="seg active" data-calendar-view="month">Mes</button>
+            <button class="seg" data-calendar-view="week">Setmana</button>
+            <button class="seg" data-calendar-view="day">Dia</button>
+          </div>
+        </div>
+        <div class="calendar-card">
+          <div class="calendar-nav">
+            <button class="round soft" id="prevPeriod">‹</button>
+            <button class="period-title" id="periodTitle"></button>
+            <button class="round soft" id="nextPeriod">›</button>
+          </div>
+          <div id="calendar"></div>
+        </div>
+      </section>
+
+      <section class="screen" id="subjectsScreen">
+        <div class="section-head first">
+          <div>
+            <small>Organització acadèmica</small>
+            <h2>Assignatures</h2>
+          </div>
+          <button class="dark compact" id="addSubjectBtn">Nova</button>
+        </div>
+        <div id="subjectsList" class="subject-sections"></div>
+      </section>
+
+      <section class="screen" id="habitsScreen">
+        <div class="section-head first">
+          <div>
+            <small>Seguiment mensual</small>
+            <h2>Hàbits</h2>
+          </div>
+          <button class="dark compact" id="addHabitBtn">Nou</button>
+        </div>
+        <div id="habitsList" class="stack"></div>
+      </section>
+
+      <section class="screen" id="clockScreen">
+        <div class="section-head first">
+          <div>
+            <small>Temps i concentració</small>
+            <h2>Rellotge</h2>
+          </div>
+          <button class="soft compact" id="fullscreenBtn">Pantalla completa</button>
+        </div>
+        <div class="segmented wide">
+          <button class="seg active" data-clock-mode="pomodoro">Pomodoro</button>
+          <button class="seg" data-clock-mode="timer">Temporitzador</button>
+          <button class="seg" data-clock-mode="clock">Rellotge</button>
+        </div>
+
+        <div class="clock-panel">
+          <div id="clockDisplay">25:00</div>
+          <div id="clockControls"></div>
+        </div>
+      </section>
+
+      <section class="screen" id="remindersScreen">
+        <div class="section-head first">
+          <div>
+            <small>Setmana actual</small>
+            <h2>Recordatoris</h2>
+          </div>
+          <button class="dark compact" id="addReminderBtn">Nou</button>
+        </div>
+        <div id="remindersList" class="stack"></div>
+      </section>
+
+      <section class="screen" id="scheduleScreen">
+        <div class="section-head first">
+          <div>
+            <small>Classes i activitats</small>
+            <h2>Horari</h2>
+          </div>
+          <button class="dark compact" id="addScheduleBtn">Afegir</button>
+        </div>
+        <div class="schedule-week" id="scheduleGrid"></div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav">
+      <button class="nav-item active" data-screen="homeScreen"><span>⌂</span>Inici</button>
+      <button class="nav-item" data-screen="subjectsScreen"><span>□</span>Assignatures</button>
+      <button class="nav-item" data-screen="habitsScreen"><span>✓</span>Hàbits</button>
+      <button class="nav-item" id="menuBtn"><span>•••</span>Menú</button>
+    </nav>
+  </div>
+
+  <div class="menu-sheet" id="menuSheet">
+    <div class="menu-card">
+      <div class="menu-head">
+        <h2>Menú</h2>
+        <button class="round soft" id="closeMenu">×</button>
+      </div>
+      <button class="menu-link" data-screen="clockScreen">Rellotge i focus <span>›</span></button>
+      <button class="menu-link" data-screen="remindersScreen">Recordatoris <span>›</span></button>
+      <button class="menu-link" data-screen="scheduleScreen">Horari <span>›</span></button>
+    </div>
+  </div>
+
+  <dialog id="taskDialog">
+    <form id="taskForm">
+      <div class="dialog-head">
+        <h2 id="taskDialogTitle">Nova tasca</h2>
+        <button type="button" class="round soft" data-close-dialog="taskDialog">×</button>
+      </div>
+      <input type="hidden" id="taskId">
+      <label>Títol<input id="taskTitle" required></label>
+      <div class="form-grid">
+        <label>Data<input id="taskDate" type="date" required></label>
+        <label>Hora<input id="taskTime" type="time"></label>
+      </div>
+      <div class="form-grid">
+        <label>Assignatura<select id="taskSubject"><option value="">Cap</option></select></label>
+        <label>Prioritat<select id="taskPriority"><option>Normal</option><option>Baixa</option><option>Alta</option><option>Urgent</option></select></label>
+      </div>
+      <label>Comentaris<textarea id="taskComments"></textarea></label>
+      <div class="dialog-actions">
+        <button type="button" class="danger-btn hidden" id="deleteTaskBtn">Eliminar</button>
+        <button type="button" class="soft-btn" data-close-dialog="taskDialog">Cancel·lar</button>
+        <button class="dark-btn" type="submit">Guardar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="simpleDialog">
+    <form id="simpleForm">
+      <div class="dialog-head">
+        <h2 id="simpleTitle"></h2>
+        <button type="button" class="round soft" data-close-dialog="simpleDialog">×</button>
+      </div>
+      <div id="simpleFields"></div>
+      <div class="dialog-actions">
+        <button type="button" class="soft-btn" data-close-dialog="simpleDialog">Cancel·lar</button>
+        <button class="dark-btn" type="submit">Guardar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>

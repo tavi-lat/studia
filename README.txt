@@ -1,13 +1,21 @@
-STUDIA - GUIA RAPIDA
+PLANNER V2
 
-1. Descomprimeix el ZIP.
-2. Per provar-la a l'ordinador, dins la carpeta executa:
-   python -m http.server 8000
-3. Obre http://localhost:8000
+Per actualitzar GitHub Pages:
+1. Descomprimeix aquest ZIP.
+2. Entra al repositori planner.
+3. Add file > Upload files.
+4. Arrossega tots els fitxers d’aquesta carpeta.
+5. Marca l’opció de substituir els fitxers existents si GitHub ho demana.
+6. Prem Commit changes.
+7. Espera 1-5 minuts i actualitza l’enllaç de GitHub Pages.
 
-PER UTILITZAR-LA A L'IPHONE GRATIS
-- Publica la carpeta a Netlify, Cloudflare Pages o GitHub Pages.
-- Obre l'enllac amb Safari.
-- Prem Compartir > Afegir a la pantalla d'inici.
-
-Important: no es pot instal.lar directament des del ZIP. Primer s'ha de publicar en una web HTTPS.
+Funcions incloses:
+- To-do list com a primera secció.
+- Calendari mensual, setmanal amb quadrats i diari.
+- Pantalla d’assignatures amb tasques agrupades.
+- Hàbits amb calendari mensual independent.
+- Pomodoro configurable, temporitzador i rellotge.
+- Mode de pantalla completa.
+- Recordatoris setmanals ordenats.
+- Horari setmanal.
+- Sense còpia de seguretat.

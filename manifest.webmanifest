@@ -1,1 +1,17 @@
-{"name":"Studia","short_name":"Studia","start_url":"./","display":"standalone","background_color":"#f3eee5","theme_color":"#f3eee5","lang":"ca","icons":[{"src":"icon.svg","sizes":"512x512","type":"image/svg+xml","purpose":"any maskable"}]}
+{
+  "name": "Planner",
+  "short_name": "Planner",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f4efe7",
+  "theme_color": "#f4efe7",
+  "lang": "ca",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
