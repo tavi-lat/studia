@@ -26,3 +26,11 @@
 .calendar-head .segmented{
   justify-self:start;
 }
+
+/* Planner v10 */
+.calendar-head-actions{display:flex;align-items:center;gap:10px}
+.calendar-plus{order:2}
+.calendar-head-actions .segmented{order:1}
+.todo-row{display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:12px 14px}
+.todo-input{flex:1;border:0;background:transparent;padding:4px 0;font-weight:700;outline:none}
+.todo-delete{width:30px;height:30px;border-radius:50%;background:transparent;color:var(--muted);font-size:1rem}

@@ -1,13 +1,13 @@
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-const KEY="planner-v7";
-const OLD_KEY="planner-v6";
+const KEY="planner-v10";
+const OLD_KEY="planner-v7";
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2);
 const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
 const today=()=>iso(new Date());
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
 let db=JSON.parse(localStorage.getItem(KEY)||localStorage.getItem(OLD_KEY)||"null")||{todos:[],tasks:[],subjects:[],habits:[],schedules:[]};
-if(!db.todos)db.todos=[];if(!db.schedules)db.schedules=[];
-let selectedDate=today(),calendarDate=new Date(),calendarView="month",taskFilter="next",habitDate=new Date();
+if(!db.todos)db.todos=[]; db.todos=db.todos.map(t=>({id:t.id||uid(),text:t.text||t.title||"Nova tasca",done:!!t.done})); if(!db.schedules)db.schedules=[];
+let selectedDate=today(),calendarDate=new Date(),calendarView="month",taskFilter="today",habitDate=new Date();
 let simpleConfig=null,clockMode="pomodoro",clockSeconds=1500,clockInitial=1500,clockInterval=null,pomo={focus:25,short:5,long:15};
 let activeScheduleId=db.schedules[0]?.id||"";
 function save(){localStorage.setItem(KEY,JSON.stringify(db));renderAll()}
@@ -20,7 +20,12 @@ function taskTypeClass(type){return "type-"+String(type||"Altres").toLowerCase()
 function renderAll(){renderHeader();renderTodos();renderTasks();renderCalendar();renderSubjects();renderHabits();renderTaskSubjects();renderClock();renderSchedules()}
 function renderHeader(){$("#todayLabel").textContent=new Intl.DateTimeFormat("ca-ES",{weekday:"long",day:"numeric",month:"long"}).format(new Date())}
 function renderTodos(){
- $("#todoList").innerHTML=db.todos.length?db.todos.map(t=>`<article class="todo-row"><button class="todo-check ${t.done?"done":""}" data-toggle-todo="${t.id}"></button><input class="todo-input" data-todo-input="${t.id}" value="${esc(t.text)}" aria-label="Editar element"><button class="text-btn" data-delete-todo="${t.id}">×</button></article>`).join(""):`<div class="empty">Escriu aquí coses ràpides que no necessiten data.</div>`;
+  const list=$("#todoList");
+  list.innerHTML=db.todos.length?db.todos.map(t=>`<article class="todo-row">
+    <button class="todo-check ${t.done?"done":""}" data-toggle-todo="${t.id}" aria-label="Marcar com feta"></button>
+    <input class="todo-input" data-todo-input="${t.id}" value="${esc(t.text)}" aria-label="Editar element">
+    <button class="todo-delete" data-delete-todo="${t.id}" aria-label="Eliminar">×</button>
+  </article>`).join(""):`<div class="empty">La llista és buida.</div>`;
 }
 function renderTasks(){
  let list=[...db.tasks];const m=iso(monday(new Date())),e=endOfWeek();
@@ -62,7 +67,13 @@ document.addEventListener("input",e=>{const ti=e.target.closest("[data-todo-inpu
 document.addEventListener("change",e=>{const ti=e.target.closest("[data-todo-input]");if(ti){const t=db.todos.find(x=>x.id===ti.dataset.todoInput);if(t){t.text=ti.value.trim()||"Nova tasca";save()}}});
 document.addEventListener("keydown",e=>{const ti=e.target.closest("[data-todo-input]");if(ti&&e.key==="Enter"){e.preventDefault();ti.blur()}});
 document.addEventListener("click",e=>{const screen=e.target.closest("[data-screen]");if(screen){showScreen(screen.dataset.screen);return}const date=e.target.closest("[data-date]");if(date){openDay(date.dataset.date);return}const toggle=e.target.closest("[data-toggle-task]");if(toggle){const t=db.tasks.find(x=>x.id===toggle.dataset.toggleTask);t.done=!t.done;save();if($("#dayDialog").open)openDay(selectedDate);return}const edit=e.target.closest("[data-edit-task]");if(edit){openTask(db.tasks.find(x=>x.id===edit.dataset.editTask));return}const tt=e.target.closest("[data-toggle-todo]");if(tt){const t=db.todos.find(x=>x.id===tt.dataset.toggleTodo);t.done=!t.done;save();return}if(e.target.dataset.deleteTodo){db.todos=db.todos.filter(x=>x.id!==e.target.dataset.deleteTodo);save()}const habit=e.target.closest("[data-habit]");if(habit){const h=db.habits.find(x=>x.id===habit.dataset.habit);h.days=h.days||{};h.days[habit.dataset.habitDate]=!h.days[habit.dataset.habitDate];save();return}if(e.target.dataset.deleteHabit){db.habits=db.habits.filter(x=>x.id!==e.target.dataset.deleteHabit);save()}if(e.target.dataset.deleteSubject){db.tasks.forEach(t=>{if(t.subject===e.target.dataset.deleteSubject)t.subject=""});db.subjects=db.subjects.filter(x=>x.id!==e.target.dataset.deleteSubject);save()}if(e.target.dataset.deleteScheduleItem){const s=db.schedules.find(x=>x.id===activeScheduleId);s.items=s.items.filter(x=>x.id!==e.target.dataset.deleteScheduleItem);save()}if(e.target.dataset.deleteScheduleProfile){if(db.schedules.length===1)return alert("Has de conservar almenys un horari.");db.schedules=db.schedules.filter(x=>x.id!==e.target.dataset.deleteScheduleProfile);activeScheduleId=db.schedules[0].id;save()}const close=e.target.closest("[data-close-dialog]");if(close)$("#"+close.dataset.closeDialog).close()});
-$("#addTodo").onclick=()=>{db.todos.push({id:uid(),text:"Nova tasca ràpida",done:false});save();setTimeout(()=>{const inputs=$$("[data-todo-input]");inputs.at(-1)?.select()},30)};
+
+$("#addTodoBtn").onclick=()=>{
+  const item={id:uid(),text:"Nova tasca",done:false};
+  db.todos.push(item);
+  save();
+  setTimeout(()=>{const el=document.querySelector(`[data-todo-input="${item.id}"]`);el?.focus();el?.select()},50);
+};
 $("#createTaskForDay").onclick=()=>{$("#dayDialog").close();openTask(null,selectedDate)};
 $("#calendarAddTask").onclick=()=>openTask(null,selectedDate);
 $("#menuBtn").onclick=()=>$("#menuSheet").classList.add("open");$("#closeMenu").onclick=()=>$("#menuSheet").classList.remove("open");
@@ -81,13 +92,3 @@ $("#fullscreenBtn").onclick=()=>$("#clockPanel").classList.add("fullscreen");$("
 $("#newScheduleBtn").onclick=()=>$("#scheduleDialog").showModal();$("#scheduleForm").onsubmit=e=>{e.preventDefault();const s={id:uid(),name:$("#scheduleName").value.trim(),mode:$("#scheduleMode").value,items:[],photo:""};db.schedules.push(s);activeScheduleId=s.id;save();$("#scheduleDialog").close();e.target.reset()};$("#scheduleSelector").onchange=e=>{activeScheduleId=e.target.value;renderSchedules()};
 setInterval(()=>{if(clockMode==="clock")renderClock()},1000);if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js"));renderAll();
 
-$("#addTodoBtn")?.addEventListener("click",()=>{
-  db.todos=db.todos||[];
-  db.todos.push({id:uid(),title:"Nova tasca",done:false});
-  save();
-  setTimeout(()=>{
-    const el=document.querySelector(`[data-inline-todo="${db.todos[db.todos.length-1].id}"]`);
-    el?.focus();
-    el?.select();
-  },50);
-});

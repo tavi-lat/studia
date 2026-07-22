@@ -6,8 +6,8 @@
   <meta name="theme-color" content="#f4efe7">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Planner">
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="manifest.webmanifest?v=10">
+  <link rel="stylesheet" href="styles.css?v=10">
   <title>Planner</title>
 </head>
 <body>
@@ -25,12 +25,12 @@
       <div class="section-head calendar-heading">
         <h2>Calendari</h2>
         <div class="calendar-head-actions">
-          <button class="calendar-plus" id="calendarAddTask" aria-label="Afegir tasca">＋</button>
           <div class="segmented">
           <button class="seg active" data-calendar-view="month">Mes</button>
           <button class="seg" data-calendar-view="week">Setmana</button>
           <button class="seg" data-calendar-view="day">Dia</button>
           </div>
+          <button class="calendar-plus" id="calendarAddTask" aria-label="Afegir tasca">＋</button>
         </div>
       </div>
       <div class="calendar-card">
@@ -154,6 +154,6 @@
   </form>
 </dialog>
 
-<script src="app.js"></script>
+<script src="app.js?v=10"></script>
 </body>
 </html>
