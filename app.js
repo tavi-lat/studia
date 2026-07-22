@@ -50,7 +50,7 @@ function renderCalendar(){
    const d=new Date(start);d.setDate(start.getDate()+i);const id=iso(d);
    const items=db.tasks.filter(t=>t.date===id&&!t.done);
    const markers=items.slice(0,4).map(t=>`<i class="calendar-dot ${taskTypeClass(t.type)}" title="${esc(t.title)}"></i>`).join("");
-   html+=`<button class="day ${d.getMonth()!==calendarDate.getMonth()?"muted":""} ${id===today()?"today":""} ${id===selectedDate?"selected":""}" data-date="${id}"><span>${d.getDate()}</span>${markers?`<span class="calendar-dots">${markers}</span>`:""}</button>`;
+   html+=`<button class="day ${d.getMonth()!==calendarDate.getMonth()?"muted":""} ${id===today()?"today":""} ${id===selectedDate?"selected":""} ${db.tasks.some(t=>t.date===id&&!t.done&&t.type==="Examen final")?"has-examen-final":db.tasks.some(t=>t.date===id&&!t.done&&t.type==="AC")?"has-ac":db.tasks.some(t=>t.date===id&&!t.done&&t.type==="Projecte")?"has-projecte":""}" data-date="${id}"><span>${d.getDate()}</span>${markers?`<span class="calendar-dots">${markers}</span>`:""}</button>`;
   }
   c.innerHTML=html+"</div>";
  }else if(calendarView==="week"){

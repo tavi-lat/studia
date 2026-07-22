@@ -1,13 +1,25 @@
-PLANNER V11
+PLANNER V12
 
 CANVIS INCLOSOS
-- Cada tipus de tasca té el seu color terracota dins del calendari.
-- AC, Examen final i Projecte tenen més contrast i destaquen més.
-- La vista mensual mostra punts del color corresponent a les tasques de cada dia.
-- La vista setmanal mostra el títol de cada tasca dins del quadrat del dia i amb el color del seu tipus.
+- Paleta terracota més diferenciada, inspirada en retoladors STABILO de tons terra.
+- AC, Examen final i Projecte tenen més contrast.
+- Al calendari mensual, cada tasca mostra un punt amb el color del seu tipus.
+- Els punts són més grans i visibles.
+- Els dies amb AC, Examen final o Projecte tenen un fons subtil relacionat amb el tipus.
+
+PALETA
+- AC: terracota fosc
+- Examen final: bordeus terrós
+- Projecte: teula intensa
+- Deures: préssec terrós
+- Personal: rosa argila
+- Cau: terracota mitjà
+- Altres: beix terrós
 
 PER ACTUALITZAR GITHUB
 1. Descomprimeix el ZIP.
-2. Puja tots els fitxers al repositori substituint els anteriors.
-3. Prem Commit changes.
-4. Espera el desplegament i actualitza amb Ctrl + F5.
+2. Puja tots els fitxers al repositori.
+3. Substitueix els existents.
+4. Prem Commit changes.
+5. Espera que GitHub Pages acabi el desplegament.
+6. Actualitza amb Ctrl + F5.

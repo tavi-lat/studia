@@ -57,3 +57,50 @@
 .week-task.type-cau{background:#925c4b}
 .week-task.type-altres{background:#b9a095;color:#2d211d}
 @media(max-width:560px){.week-task{font-size:.72rem}.week-card{min-height:96px}}
+
+/* Planner v12 — paleta terracota tipus STABILO */
+:root{
+  --type-ac:#8f3b2d;
+  --type-final:#69271f;
+  --type-deures:#d98b73;
+  --type-projecte:#a84e38;
+  --type-personal:#e3aa91;
+  --type-cau:#b76c55;
+  --type-altres:#c49b86;
+}
+
+/* Etiquetes de tipus */
+.type-ac{background:var(--type-ac)!important;color:#fff!important}
+.type-examen-final{background:var(--type-final)!important;color:#fff!important}
+.type-deures{background:var(--type-deures)!important;color:#2f1f1a!important}
+.type-projecte{background:var(--type-projecte)!important;color:#fff!important}
+.type-personal{background:var(--type-personal)!important;color:#38241d!important}
+.type-cau{background:var(--type-cau)!important;color:#fff!important}
+.type-altres{background:var(--type-altres)!important;color:#2d211d!important}
+
+/* Punts del calendari mensual: més grans i amb contrast */
+.month-task-dots{
+  display:flex;
+  gap:3px;
+  flex-wrap:wrap;
+  align-items:center;
+  margin-top:6px;
+}
+.month-task-dot{
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  box-shadow:0 0 0 1.5px rgba(255,253,249,.95);
+}
+.month-task-dot.type-ac{background:var(--type-ac)!important}
+.month-task-dot.type-examen-final{background:var(--type-final)!important}
+.month-task-dot.type-deures{background:var(--type-deures)!important}
+.month-task-dot.type-projecte{background:var(--type-projecte)!important}
+.month-task-dot.type-personal{background:var(--type-personal)!important}
+.month-task-dot.type-cau{background:var(--type-cau)!important}
+.month-task-dot.type-altres{background:var(--type-altres)!important}
+
+/* Si hi ha una sola tasca destacada, marca subtilment el dia */
+.day.has-ac{background:rgba(143,59,45,.10)}
+.day.has-examen-final{background:rgba(105,39,31,.12)}
+.day.has-projecte{background:rgba(168,78,56,.10)}
