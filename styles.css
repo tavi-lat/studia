@@ -5,3 +5,14 @@
 /* Planner v7 */
 .calendar-head-actions{display:flex;align-items:center;gap:8px}.calendar-plus{width:38px;height:38px;border-radius:12px;background:var(--ink);color:white;font-size:1.25rem;display:grid;place-items:center}.week-card.empty{background:var(--panel);border:1px solid var(--line);min-height:105px}.week-card.empty strong{color:var(--muted)}.todo-input{font-weight:400}.section-head small{display:none}.nav-item span{font-weight:400}
 @media(max-width:560px){.calendar-heading{align-items:flex-start;flex-direction:column}.calendar-head-actions{width:100%;justify-content:space-between}.week-cards{grid-template-columns:repeat(2,1fr)}}
+
+/* Planner v8 */
+.todo-add-bottom{
+  width:100%;
+  margin-top:10px;
+  background:transparent;
+  color:var(--accent);
+  border:1px dashed var(--line);
+  border-radius:16px;
+  padding:12px;
+}

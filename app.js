@@ -80,3 +80,14 @@ $$("[data-clock-mode]").forEach(b=>b.onclick=()=>{clearInterval(clockInterval);c
 $("#fullscreenBtn").onclick=()=>$("#clockPanel").classList.add("fullscreen");$("#minimizeClock").onclick=()=>$("#clockPanel").classList.remove("fullscreen");
 $("#newScheduleBtn").onclick=()=>$("#scheduleDialog").showModal();$("#scheduleForm").onsubmit=e=>{e.preventDefault();const s={id:uid(),name:$("#scheduleName").value.trim(),mode:$("#scheduleMode").value,items:[],photo:""};db.schedules.push(s);activeScheduleId=s.id;save();$("#scheduleDialog").close();e.target.reset()};$("#scheduleSelector").onchange=e=>{activeScheduleId=e.target.value;renderSchedules()};
 setInterval(()=>{if(clockMode==="clock")renderClock()},1000);if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js"));renderAll();
+
+$("#addTodoBtn")?.addEventListener("click",()=>{
+  db.todos=db.todos||[];
+  db.todos.push({id:uid(),title:"Nova tasca",done:false});
+  save();
+  setTimeout(()=>{
+    const el=document.querySelector(`[data-inline-todo="${db.todos[db.todos.length-1].id}"]`);
+    el?.focus();
+    el?.select();
+  },50);
+});

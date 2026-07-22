@@ -20,6 +20,7 @@
     <section class="screen active" id="homeScreen">
       <div class="section-head first"><h2>To-do list</h2><button class="text-btn" id="addTodo">＋ Afegir</button></div>
       <div id="todoList" class="stack"></div>
+        <button class="todo-add-bottom" id="addTodoBtn">＋ Afegir</button>
 
       <div class="section-head calendar-heading">
         <h2>Calendari</h2>
@@ -43,15 +44,14 @@
     </section>
 
     <section class="screen" id="tasksScreen">
-      <div class="section-head first"><h2>Entregues</h2></div>
+      <div class="section-head first"><h2>Tasques</h2></div>
       <div class="filters">
-        <button class="chip active" data-task-filter="next">Avui i demà</button>
-        <button class="chip" data-task-filter="today">Avui</button>
-        <button class="chip" data-task-filter="tomorrow">Demà</button>
-        <button class="chip" data-task-filter="week">Setmana</button>
-        <button class="chip" data-task-filter="all">Totes</button>
-        <button class="chip" data-task-filter="done">Fetes</button>
-      </div>
+          <button class="chip active" data-task-filter="today">Avui</button>
+          <button class="chip" data-task-filter="tomorrow">Demà</button>
+          <button class="chip" data-task-filter="week">Aquesta setmana</button>
+          <button class="chip" data-task-filter="month">Aquest mes</button>
+          <button class="chip" data-task-filter="all">Totes</button>
+        </div>
       <div id="taskList" class="stack"></div>
     </section>
 
@@ -99,7 +99,7 @@
 
   <nav class="bottom-nav">
     <button class="nav-item active" data-screen="homeScreen"><span>⌂</span>Inici</button>
-    <button class="nav-item" data-screen="tasksScreen"><span>□</span>Entregues</button>
+    <button class="nav-item" data-screen="tasksScreen"><span>□</span>Tasques</button>
     <button class="nav-item" data-screen="clockScreen"><span>◷</span>Rellotge</button>
     <button class="nav-item" id="menuBtn"><span>•••</span>Menú</button>
   </nav>

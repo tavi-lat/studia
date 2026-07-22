@@ -1,13 +1,17 @@
-PLANNER V7
+PLANNER V8
 
-CANVIS
-- Calendari setmanal amb set quadrats visibles, també quan no hi ha tasques.
-- To-do list editable directament sobre el text.
-- Botó + situat només a l’apartat del calendari.
-- Apartat “Entregues” amb icona minimalista.
-- Filtres per veure entregues d’avui, demà, avui i demà, setmana, totes o fetes.
-- Eliminats els subtítols explicatius dels apartats.
-- Paleta exclusivament neutra i terracota, sense blau.
+CANVIS INCLOSOS
+- Eliminats els subtítols de totes les pantalles.
+- Botó + per crear tasques situat dins de l’apartat Calendari.
+- Eliminat el botó d’afegir tasca sota del calendari.
+- Botó per afegir ítems de la to-do list situat al final de la llista.
+- Filtres de Tasques: Avui, Demà, Aquesta setmana, Aquest mes i Totes.
+- Nou nom i icona a la barra inferior: Tasques, amb icona minimalista quadrada.
 
-ACTUALITZACIÓ
-Puja tots els fitxers a GitHub, substitueix els anteriors i prem Commit changes.
+PER ACTUALITZAR GITHUB
+1. Descomprimeix el ZIP.
+2. Entra al repositori.
+3. Add file > Upload files.
+4. Puja tots els fitxers i substitueix els existents.
+5. Prem Commit changes.
+6. Espera uns minuts i actualitza amb Ctrl + F5.
